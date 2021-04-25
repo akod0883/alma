@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title>New Restaurants Requests</title>
+
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" href="{{ url_for('static', filename='img/cs.ico') }}">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.css">
+        <link rel="stylesheet" href="{{ url_for('static', filename='styles/custom.css') }}">
+
+    </head>
+
+    <body>
+
+    <main role="main" class="container extra-bottom"; style="text-align: center;">
+      <h1 class="mt-5">New Restaurants Requests</h1>
+    </main>
+
+
+    <div class="container">
+        <div style="text-align: center; color: red; text-decoration: underline;">
+            Average Count by Restaurant: {{query[0]}}
+            <br>
+            <br>
+        </div>
+        <!-- Button trigger modal -->
+        <div style="text-align: center;">
+        <button type="button" class="btn btn-outline-info btn-sm" data-bs-toggle="modal" data-bs-target="#task-modal" data-source="New Restaurant">Add Restaurant</button>
+        </div>
+        <br>
+        <div class="form-outline">
+            <input type="search" id="form1" class="form-control" placeholder="Type query" aria-label="Search" />
+        </div>
+
+
+        <div class="modal fade" id="task-modal" tabindex="-1" aria-labelledby="Label" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="Label">Add a task</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            <div class="modal-body">
+                <div class="input-group mb-3">
+                    <span class="input-group-text" id="task-form-display">RestaurantID</span>
+                    <input type="text" class="form-control" placeholder="ID number" aria-label="task-name" aria-describedby="basic-addon1">
+                </div>
+                <div class="input-group mb-3">
+                    <span class="input-group-text" id="task-form-display">Username</span>
+                    <input type="text" class="form-control" placeholder="Username" aria-label="task-name" aria-describedby="basic-addon1">
+                </div>
+                <div class="input-group mb-3">
+                    <span class="input-group-text" id="task-form-display">Restaurant Name</span>
+                    <input type="text" class="form-control" placeholder="Full Restaurant Name" aria-label="task-name" aria-describedby="basic-addon1">
+                </div>
+                <div class="input-group mb-3">
+                    <span class="input-group-text" id="task-form-display">Address</span>
+                    <input type="text" class="form-control" placeholder="Full Address" aria-label="task-name" aria-describedby="basic-addon1">
+                </div>
+                <div class="input-group mb-3">
+                    <span class="input-group-text" id="task-form-display">Status</span>
+                    <input type="text" class="form-control" placeholder="TRUE/FALSE" aria-label="task-name" aria-describedby="basic-addon1">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button id="submit-task" type="button" class="btn btn-primary">Save changes</button>
+            </div>
+            </div>
+        </div>
+        </div>
+
+    </div>
+
+    <!--Todo Table-->
+    <div class="container table-responsive">
+    <table class="table">
+        <thead>
+        <tr>
+            <th class="task-id">#</th>
+            <th class="task">Username</th>
+            <th class="newRestaurant">Restaurant Name</th>
+            <th class="newRestaurantAddress"> Address </th>
+            <th class="status">Status</th>
+            <th class="update">Edit</th>
+            <th class="update">Remove</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        {% for item in items %}
+            <tr>
+                <td>{{item.newRestaurantID}}</td>
+                <td>{{item.username}}</td>
+                <td>{{item.newRestaurantName}}</td>
+                <td>{{item.newRestaurantAddress}}</td>
+
+                {% if item.approvedBool == "FALSE" %}
+                    <td><button type="button" class="btn btn-outline-danger btn-sm state" data-source="{{item.newRestaurantID}}">{{item.approvedBool}}</button></td>
+                {%endif%}
+                {% if item.approvedBool == "TRUE" %}
+                    <td><button type="button" class="btn btn-outline-success btn-sm state" data-source="{{item.newRestaurantID}}">{{item.approvedBool}}</button></td>
+                {%endif%}
+                <td><button type="button" class="btn btn-outline-info btn-sm" data-bs-toggle="modal" data-bs-target="#task-modal" data-source="{{item.newRestaurantID}}" data-content=""><i class="fa fa-pen fa-1" aria-hidden="true"></i></button></td>
+
+                <td><button class="btn btn-outline-secondary btn-sm remove" data-source="{{item.newRestaurantID}}" type="button"><i class="fa fa-trash fa-1" aria-hidden="true"></i></button></td>
+            </tr>
+        {% endfor %}
+
+        </tbody>
+    </table>
+    </div>
+
+
+
+    <footer class="footer">
+      <div class="container">
+            <p class="text-muted"><small>App partially developed for CS411 UIUC by @tcheng10</small></p>
+      </div>
+    </footer>
+  </body>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous"></script>
+    <script src="{{ url_for('static', filename='script/modal.js') }}"></script>
+
+</html>
