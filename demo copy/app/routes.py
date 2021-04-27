@@ -161,7 +161,8 @@ def create_reviews():
         conn.close()
         flash('Your post has been created! Thank you for your review!', 'success')
         return redirect(url_for('home'))
-    return render_template('create_review.html', title='New Review', form=form)
+    return render_template('create_review.html', title='New Review', 
+                                            form=form, legend='New Review')
 
 
 @app.route("/create_reviews/<int:ReviewNumber>")
@@ -169,17 +170,57 @@ def access_reviews(ReviewNumber):
     conn = db.connect()
     post = []
     result = conn.execute(
-        "SELECT RestaurantName, Review FROM UserRestaurantReviews WHERE ReviewNumber = '{}'".format(ReviewNumber)).fetchall()
-    print(result)
-    print(result[0][0])
-    print(result[0][1])
+        "SELECT * FROM UserRestaurantReviews WHERE ReviewNumber = '{}';".format(ReviewNumber)).fetchall()
     item = {
         "UserName": forms.LOGGED_USER,
-        "RestaurantName": result[0][0],
-        "Review": result[0][1]
+        "RestaurantName": result[0][1],
+        "MealCost": result[0][2],
+        "ConvenienceRating": result[0][3],
+        "FoodRating":result[0][4],
+        "Review": result[0][5]
+        
     }
     post.append(item) 
-    print(post[0]["UserName"])
     return render_template('post.html', post=post)
+
+
+@app.route("/create_reviews/<int:ReviewNumber>/update", methods=['GET', 'POST'])
+def update_review(ReviewNumber):
+    conn = db.connect()
+    post = []
+    result = conn.execute(
+        "SELECT * FROM UserRestaurantReviews WHERE ReviewNumber = '{}';".format(ReviewNumber)).fetchall()
+    item = {
+        "UserName": forms.LOGGED_USER,
+        "RestaurantName": result[0][1],
+        "MealCost": result[0][2],
+        "ConvenienceRating": result[0][3],
+        "FoodRating":result[0][4],
+        "Review": result[0][5]
+        
+    }
+    post.append(item) 
+    form = forms.ReviewsForm()
+    if form.validate_on_submit():
+        post[0]["RestaurantName"] = form.title.data
+        post[0]["Review"] = form.content.data
+        post[0]["UserName"] = forms.LOGGED_USER
+        post[0]["MealCost"] = form.meal_cost.data
+        post[0]["ConvenienceRating"] = form.convenience_rating.data
+        post[0]["FoodRating"] = form.food_rating.data
+        commit = conn.execute("Update UserRestaurantReviews SET Review = '{}', MealCost = '{}', ConvenienceRating = '{}', FoodRating = '{}', RestaurantName = '{}' WHERE ReviewNumber = '{}';".format(form.content.data, form.meal_cost.data, form.convenience_rating.data, form.food_rating.data, form.title.data, ReviewNumber))
+
+        flash('Your review has been updated!', 'success')
+        return redirect(url_for('access_reviews', ReviewNumber=ReviewNumber))
+    elif request.method == 'GET':
+        form.title.data = post[0]["RestaurantName"]
+        form.content.data = post[0]["Review"]
+        forms.LOGGED_USER = post[0]["UserName"]
+        form.convenience_rating.data = post[0]["ConvenienceRating"]
+        form.meal_cost.data = post[0]["MealCost"]
+        form.food_rating.data = post[0]["FoodRating"]
+
+    return render_template('create_review.html', title='Update Review', 
+                                form=form, legend='Update Review')
 
 
