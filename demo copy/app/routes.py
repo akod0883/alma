@@ -100,6 +100,7 @@ def register():
         conn = db.connect()
         conn.execute('Insert Into users (username, email, password) VALUES ("{}", "{}", "{}");'.format(
             form.username.data, form.email.data, hashed_password))
+        conn.close()
         flash(f'Your acount has been created. You can now log in.', 'success')
         return redirect(url_for('login'))
     return render_template('register.html', title='Register', form=form, logged_user=forms.LOGGED_USER)
@@ -135,3 +136,18 @@ def login():
 def logout():
     forms.LOGGED_USER = 'empty'
     return redirect(url_for('home'))
+
+
+@app.route("/create_reviews", methods=['GET', 'POST'])
+def create_reviews():
+    form = forms.ReviewsForm()
+    if form.validate_on_submit():
+        conn = db.connect()
+        conn.execute('Insert Into UserRestaurantRatings (UserID, UserName, MealCost, ConvenienceRating, FoodRating) VALUES ("{}", "{}", "{}", "{}", "{}");'.format(
+            "0", "akhilkodumurikodumuri", form.meal_cost.data, form.convenience_rating.data, form.food_rating.data))
+        conn.close()
+        flash('Your post has been created! Thank you for your review!', 'success')
+        return redirect(url_for('home'))
+    return render_template('create_review.html', title='New Review', form=form)
+
+

@@ -1,7 +1,7 @@
 from flask_wtf import FlaskForm
 import email_validator
-from wtforms import StringField, PasswordField, SubmitField, BooleanField
-from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationError
+from wtforms import StringField, PasswordField, SubmitField, BooleanField, TextAreaField, IntegerField,FloatField
+from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationError, NumberRange
 from app import app, db
 #from flask_login import userMIxin
 
@@ -47,6 +47,18 @@ class RegistrationForm(FlaskForm):
         if exists:
             raise ValidationError('Email already exists')
 
+class ReviewsForm(FlaskForm):
+    # username = LOGGED_USER
+    title = StringField('Restaurant Name', validators=[
+                           DataRequired(), Length(min=2, max=20)])
+    content  = TextAreaField('Content', validators=[DataRequired()])
+    submit = SubmitField('Post')
+    food_rating = IntegerField('Food Rating', validators=[
+                                               DataRequired(), NumberRange(min=1, max=10, message='Enter a number between 1-10')])
+    convenience_rating = IntegerField('Convenience Rating', validators=[
+                                               DataRequired(), NumberRange(min=1, max=10, message='Enter a number between 1-10')])
+    meal_cost = FloatField('Meal Cost', validators=[
+                                               DataRequired(), NumberRange(min=1, max=100, message='Enter a number between 1-100')])
 
 class LoginForm(FlaskForm):
     username = StringField('Username', validators=[
