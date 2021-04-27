@@ -69,25 +69,38 @@ def about():
 # THIS IS NEW
 
 
-posts = [
-    {
-        'author': 'Corey Schafer',
-        'title': 'Blog Post 1',
-        'content': 'First post content',
-        'date_posted': 'April 20, 2018'
-    },
-    {
-        'author': 'Jane Doe',
-        'title': 'Blog Post 2',
-        'content': 'Second post content',
-        'date_posted': 'April 21, 2018'
-    }
-]
+# posts = [
+#     {
+#         'author': 'Corey Schafer',
+#         'title': 'Blog Post 1',
+#         'content': 'First post content',
+#         'date_posted': 'April 20, 2018'
+#     },
+#     {
+#         'author': 'Jane Doe',
+#         'title': 'Blog Post 2',
+#         'content': 'Second post content',
+#         'date_posted': 'April 21, 2018'
+#     }
+# ]
 
 
 @app.route("/")
 @app.route("/home")
 def home():
+    posts = []
+    if forms.LOGGED_USER != 'empty':
+        conn = db.connect()
+        results = conn.execute('SELECT RestaurantName, Review, ReviewNumber FROM UserRestaurantReviews WHERE UserName = "{}";'.format(forms.LOGGED_USER)).fetchall()
+        conn.close()
+        for result in results:
+            item = {
+                "UserName": forms.LOGGED_USER,
+                "RestaurantName": result[0],
+                "Review": result[1],
+                "ReviewNumber": result[2]
+            }
+            posts.append(item)
     return render_template('home.html', posts=posts, logged_user=forms.LOGGED_USER)
 
 
@@ -138,16 +151,35 @@ def logout():
     return redirect(url_for('home'))
 
 
-@app.route("/create_reviews", methods=['GET', 'POST'])
+@app.route("/create_reviews/new", methods=['GET', 'POST'])
 def create_reviews():
     form = forms.ReviewsForm()
     if form.validate_on_submit():
         conn = db.connect()
-        conn.execute('Insert Into UserRestaurantRatings (UserID, UserName, MealCost, ConvenienceRating, FoodRating) VALUES ("{}", "{}", "{}", "{}", "{}");'.format(
-            "0", "akhilkodumurikodumuri", form.meal_cost.data, form.convenience_rating.data, form.food_rating.data))
+        conn.execute('Insert Into UserRestaurantReviews (UserName, RestaurantName, MealCost, ConvenienceRating, FoodRating, Review) VALUES ("{}", "{}", "{}", "{}", "{}", "{}");'.format(
+            forms.LOGGED_USER, form.title.data, form.meal_cost.data, form.convenience_rating.data, form.food_rating.data, form.content.data))
         conn.close()
         flash('Your post has been created! Thank you for your review!', 'success')
         return redirect(url_for('home'))
     return render_template('create_review.html', title='New Review', form=form)
+
+
+@app.route("/create_reviews/<int:ReviewNumber>")
+def access_reviews(ReviewNumber):
+    conn = db.connect()
+    post = []
+    result = conn.execute(
+        "SELECT RestaurantName, Review FROM UserRestaurantReviews WHERE ReviewNumber = '{}'".format(ReviewNumber)).fetchall()
+    print(result)
+    print(result[0][0])
+    print(result[0][1])
+    item = {
+        "UserName": forms.LOGGED_USER,
+        "RestaurantName": result[0][0],
+        "Review": result[0][1]
+    }
+    post.append(item) 
+    print(post[0]["UserName"])
+    return render_template('post.html', post=post)
 
 
