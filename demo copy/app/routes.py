@@ -170,7 +170,7 @@ def access_reviews(ReviewNumber):
     conn = db.connect()
     post = []
     result = conn.execute(
-        "SELECT * FROM UserRestaurantReviews WHERE ReviewNumber = '{}';".format(ReviewNumber)).fetchall()
+        "SELECT * FROM UserRestaurantReviews WHERE ReviewNumber = '{}' AND UserName = '{}';".format(ReviewNumber, forms.LOGGED_USER)).fetchall()
     item = {
         "UserName": forms.LOGGED_USER,
         "RestaurantName": result[0][1],
@@ -184,7 +184,7 @@ def access_reviews(ReviewNumber):
     conn.close()
     return render_template('post.html', post=post)
 
-#            
+          
 
 @app.route("/create_reviews/<int:ReviewNumber>/update", methods=['GET', 'POST'])
 def update_review(ReviewNumber):
@@ -235,3 +235,29 @@ def delete_review(ReviewNumber):
     flash('Your post has been deleted!', 'success')
     return redirect(url_for('home'))
 
+# User will press search button in navigation bar. There they will search a restaurant by name and all the reviews and ratings will
+# be listed 
+
+@app.route("/search", methods=['GET', 'POST'])
+def search_review():
+    form = forms.SearchForm()
+    posts = []
+    if form.validate_on_submit():
+        conn = db.connect()
+        results = conn.execute("SELECT * FROM UserRestaurantReviews WHERE RestaurantName = '{}';".format(form.restaurant_name.data)).fetchall()
+        count = conn.execute("SELECT COUNT(RestaurantName) FROM UserRestaurantReviews WHERE RestaurantName = '{}' GROUP BY RestaurantName;".format(form.restaurant_name.data)).fetchall()
+        if len(results) == 0:
+            flash('The restaurant you searched does not exist', 'danger')
+            return redirect(url_for('search_review'))
+        conn.close()
+        for result in results:
+            item = {
+                "UserName": forms.LOGGED_USER,
+                "RestaurantName": result[1],
+                "MealCost": result[2],
+                "ConvenienceRating": result[3],
+                "FoodRating":result[4],
+                "Review": result[5]
+            }
+            posts.append(item)
+    return render_template('search.html', posts=posts, form=form)

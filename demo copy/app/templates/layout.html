@@ -35,6 +35,7 @@
               <a class="nav-item nav-link" href="{{ url_for('login') }}">Login</a>
               <a class="nav-item nav-link" href="{{ url_for('register') }}">Register</a>
               {% else %}
+              <a class="nav-item nav-link" href="{{ url_for('search_review') }}">Search Reviews</a>
               <a class="nav-item nav-link" href="{{ url_for('create_reviews') }}">Create Reviews</a>
               <a class="nav-item nav-link" href="{{ url_for('logout') }}">Logout</a>              
               {% endif %}

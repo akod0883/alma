@@ -67,5 +67,9 @@ class LoginForm(FlaskForm):
     remember = BooleanField('Remember Me')
     submit = SubmitField('Login')
 
+class SearchForm(FlaskForm):
+    restaurant_name = StringField('Restaurant Name', validators=[
+                                    DataRequired(), Length(min=2, max=20)])
+    search = SubmitField('Search')
 
 LOGGED_USER = 'empty'
