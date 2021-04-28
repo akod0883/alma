@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en" class="h-100">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
+    <meta name="generator" content="Hugo 0.82.0">
+    {% if title %}
+        <title>Alma Munchers - About</title>
+    {% else %}
+        <title>Alma Munchers</title>
+    {% endif %}
+
+    <link rel="canonical" href="https://getbootstrap.com/docs/5.0/examples/cover/">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+
+
+    <!-- Bootstrap core CSS -->
+<link href="../static/styles/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+      .bd-placeholder-img {
+        font-size: 1.125rem;
+        text-anchor: middle;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        user-select: none;
+      }
+
+      @media (min-width: 768px) {
+        .bd-placeholder-img-lg {
+          font-size: 3.5rem;
+        }
+      }
+    </style>
+
+
+    <!-- Custom styles for this template -->
+    <link href="../static/styles/cover.css" rel="stylesheet">
+  </head>
+  <body class="d-flex h-100 text-center text-white bg-dark">
+
+<div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
+  <header class="site-header">
+      <nav class="navbar navbar-expand-md navbar-light bg-light fixed-top">
+        <div class="container">
+          <a class="navbar-brand mr-4" href="/">Alma Munchers</a>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggle" aria-controls="navbarToggle" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarToggle">
+            <div class="navbar-nav mr-auto">
+              <a class="nav-item nav-link" href="{{ url_for('homepage') }}">Home</a>
+              <a class="nav-item nav-link" href="{{ url_for('about') }}">About</a>
+            </div>
+            <!-- Navbar Right Side -->
+            <div class="navbar-nav">
+              {% if logged_user == "empty" %}
+              <a class="nav-item nav-link" href="{{ url_for('login') }}">Login</a>
+              <a class="nav-item nav-link" href="{{ url_for('register') }}">Register</a>
+              {% else %}
+              <a class="nav-item nav-link" href="{{ url_for('home') }}">My Reviews</a>
+              <a class="nav-item nav-link" href="{{ url_for('search_review') }}">Search Reviews</a>
+              <a class="nav-item nav-link" href="{{ url_for('create_reviews') }}">Create Reviews</a>
+              <a class="nav-item nav-link" href="{{ url_for('logout') }}">Logout</a>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+  <body class="d-flex h-100 text-center text-white bg-dark">
+
+    <br>
+    <br>
+    <h1><mark style="color: #13294B; background-color: #E84A27"> About Alma Munchers </mark></h1>
+    <br>
+    <p class="lead">
+      <p> This website is intended to be a place where UIUC students can drop their honest opinions about restaurants on campus. Information regarding cost, convenience, taste, and location will all be provided. Our website is intended to be fun and flashy to encourage users to provide their own feedback, thus, creating an environment with honest food opinions. We are hoping to create a better, more college friendly. <br> <br>
+
+
+Every year, people are actively searching for information about the best restaurants here on campus. However, most recommendations provided by websites do not include rating based on location when recommending restaurants to their users. Our project makes this whole process a lot easier by having a database that contains all the information for the restaurants here at UIUC. The website will be structured by having different tabs for each individual factor of a restaurant such as cost, convenience, re - eatability. Users will then be able to give their own review for each of these factors by giving a rank from 1 - 10. Furthermore they will also be able to give a written review of the restaurant as a whole. This information will be used to create a tiered list of all the restaurants. Users will also be able to search for specific restaurants and lookup the reviews for them. This will allow people that are new to campus or not familiar with all the restaurants to know what is the best restaurant to go to. <br> <br>
+
+
+This project will appeal to people that are new to the area and the people who may be familiar with it, but don’t know the ins and outs of the UIUC Cuisine. As students who have all eaten out many times between our school work and activities, word of mouth became the main source of information for our restaurant knowledge. Many students may be looking for restaurants that fit their cravings but aren’t willing to explore and try out new places to eat every day. Being students, we know what places are open late, where to go when we want a healthy yet tasty meal, how to gauge the price of restaurants, and what places we can eat over and over again without getting tired of them. Combining this information with quantitative and qualitative data from these restaurants, as well as anecdotal restaurant information and advice from peers will allow us to create an incredibly useful database that makes sure you never set foot in the wrong restaurant. Similar websites to ours include Yelp. However, Yelp has a social stigma of being formal and not including relevant information that could be useful to a college student. Yelp is predominately used as a source of complaints and critiques from a very niche user base. Alma Munchers, target user base are college students, and, thus, will provide information relevant to their needs. <br></p>
+    </p>
+  </main>
+</div>
+
+
+
+  </body>
+</html>

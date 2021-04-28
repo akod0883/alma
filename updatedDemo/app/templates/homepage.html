@@ -1,0 +1,101 @@
+
+<!doctype html>
+<html lang="en" class="h-100">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
+    <meta name="generator" content="Hugo 0.82.0">
+    {% if title %}
+        <title>Alma Munchers - {{ title }}</title>
+    {% else %}
+        <title>Alma Munchers</title>
+    {% endif %}
+
+    <link rel="canonical" href="https://getbootstrap.com/docs/5.0/examples/cover/">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+
+
+
+
+
+    <!-- Bootstrap core CSS -->
+<link href="../static/styles/bootstrap.min.css" rel="stylesheet">
+ <link href="../static/styles/cover.css" rel="stylesheet">
+
+    <style>
+      .bd-placeholder-img {
+        font-size: 1.125rem;
+        text-anchor: middle;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        user-select: none;
+      }
+
+      @media (min-width: 768px) {
+        .bd-placeholder-img-lg {
+          font-size: 3.5rem;
+        }
+      }
+    </style>
+
+
+    <!-- Custom styles for this template -->
+
+  <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
+  <header class="site-header">
+      <nav class="navbar navbar-expand-md navbar-light bg-light fixed-top">
+        <div class="container">
+          <a class="navbar-brand mr-4" href="/">Alma Munchers</a>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggle" aria-controls="navbarToggle" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarToggle">
+            <div class="navbar-nav mr-auto">
+              <a class="nav-item nav-link" href="{{ url_for('homepage') }}">Home</a>
+              <a class="nav-item nav-link" href="{{ url_for('about') }}">About</a>
+            </div>
+            <!-- Navbar Right Side -->
+            <div class="navbar-nav">
+              {% if logged_user == "empty" %}
+              <a class="nav-item nav-link" href="{{ url_for('login') }}">Login</a>
+              <a class="nav-item nav-link" href="{{ url_for('register') }}">Register</a>
+              {% else %}
+              <a class="nav-item nav-link" href="{{ url_for('home') }}">My Reviews</a>
+              <a class="nav-item nav-link" href="{{ url_for('search_review') }}">Search Reviews</a>
+              <a class="nav-item nav-link" href="{{ url_for('create_reviews') }}">Create Reviews</a>
+              <a class="nav-item nav-link" href="{{ url_for('logout') }}">Logout</a>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+  <body class="d-flex h-100 text-center text-white bg-dark">
+
+    <br>
+    <br>
+    <br>
+  <main class="px-3">
+    <img src="../static/img/out-illinify.png" alt="Welcome!" style="width:600px;height:400px;">
+    <br>
+    <br>
+    <h1><mark style="color: #13294B; background-color: #E84A27"> Alma Munchers </mark></h1>
+    <br>
+    <p class="lead" style="color: #E84A27"> <u> Top Restaurants on Campus </u></p>
+    <p class="lead">
+      <a href="/login" class="btn btn-lg btn-secondary fw-bold border-white bg-white">Login</a>
+    </p>
+  </main>
+
+  <footer class="mt-auto text-white-50">
+    <p><a href="https://wiki.illinois.edu/wiki/display/CS411AASP21/Overview" class="text-white">CS 411 Project</a>, home template by <a href="https://twitter.com/mdo" class="text-white">@mdo</a>.</p>
+  </footer>
+</div>
+
+
+
+  </body>
+</html>
