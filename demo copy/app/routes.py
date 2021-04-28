@@ -91,14 +91,17 @@ def home():
     posts = []
     if forms.LOGGED_USER != 'empty':
         conn = db.connect()
-        results = conn.execute('SELECT RestaurantName, Review, ReviewNumber FROM UserRestaurantReviews WHERE UserName = "{}";'.format(forms.LOGGED_USER)).fetchall()
+        results = conn.execute('SELECT * FROM UserRestaurantReviews WHERE UserName = "{}";'.format(forms.LOGGED_USER)).fetchall()
         conn.close()
         for result in results:
             item = {
                 "UserName": forms.LOGGED_USER,
-                "RestaurantName": result[0],
-                "Review": result[1],
-                "ReviewNumber": result[2]
+                "RestaurantName": result[1],
+                "MealCost": result[2],
+                "ConvenienceRating": result[3],
+                "FoodRating":result[4],
+                "Review": result[5],
+                "ReviewNumber": result[6]   
             }
             posts.append(item)
     return render_template('home.html', posts=posts, logged_user=forms.LOGGED_USER)
@@ -252,7 +255,7 @@ def search_review():
         conn.close()
         for result in results:
             item = {
-                "UserName": forms.LOGGED_USER,
+                "UserName": result[0],
                 "RestaurantName": result[1],
                 "MealCost": result[2],
                 "ConvenienceRating": result[3],

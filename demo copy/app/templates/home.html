@@ -7,7 +7,10 @@
               <a class="mr-2" href="#">{{ post.UserName }}</a>
             </div>
             <h2><a class="article-title" href="{{ url_for('access_reviews', ReviewNumber=post.ReviewNumber) }}">{{ post.RestaurantName }}</a></h2>
-            <p class="article-content">{{ post.Review }}</p>
+            <p class="article-content">Review: {{ post.Review }}</p>
+            <p class="article-content">Meal Cost: {{ post.MealCost }}</p>
+            <p class="article-content">Convenience Rating: {{ post.ConvenienceRating }}</p>
+            <p class="article-content">Food Rating: {{ post.FoodRating }}</p>
           </div>
         </article>
     {% endfor %}
