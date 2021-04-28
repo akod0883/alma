@@ -177,12 +177,14 @@ def access_reviews(ReviewNumber):
         "MealCost": result[0][2],
         "ConvenienceRating": result[0][3],
         "FoodRating":result[0][4],
-        "Review": result[0][5]
-        
+        "Review": result[0][5],
+        "ReviewNumber": ReviewNumber   
     }
     post.append(item) 
+    conn.close()
     return render_template('post.html', post=post)
 
+#            
 
 @app.route("/create_reviews/<int:ReviewNumber>/update", methods=['GET', 'POST'])
 def update_review(ReviewNumber):
@@ -219,8 +221,17 @@ def update_review(ReviewNumber):
         form.convenience_rating.data = post[0]["ConvenienceRating"]
         form.meal_cost.data = post[0]["MealCost"]
         form.food_rating.data = post[0]["FoodRating"]
-
+    conn.close()
     return render_template('create_review.html', title='Update Review', 
                                 form=form, legend='Update Review')
 
+
+
+@app.route("/create_reviews/<int:ReviewNumber>/delete", methods=['POST'])
+def delete_review(ReviewNumber):
+    conn = db.connect()
+    conn.execute("DELETE FROM UserRestaurantReviews WHERE ReviewNumber = '{}';".format(ReviewNumber))
+    conn.close()
+    flash('Your post has been deleted!', 'success')
+    return redirect(url_for('home'))
 
