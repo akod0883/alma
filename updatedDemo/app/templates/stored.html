@@ -1,0 +1,54 @@
+{% extends "layout.html" %}
+{% block content %}
+<div class="content-section">
+    <form method="POST" action="">
+        {{ form.hidden_tag() }}
+        <fieldset class="form-group">
+            <legend class="border-bottom mb-4">{{ legend }}</legend>
+            <div class="form-group">
+                {{ form.CuisineName.label(class="form-control-label") }}
+                {% if form.CuisineName.errors %}
+                    {{ form.CuisineName(class="form-control form-control-lg is-invalid") }}
+                    <div class="invalid-feedback">
+                        {% for error in form.CuisineName.errors %}
+                            <span>{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    {{ form.CuisineName(class="form-control form-control-lg") }}
+                {% endif %}
+            </div>    
+            <div class="form-group">
+                {{ form.Parameter.label(class="form-control-label") }}
+                {% if form.Parameter.errors %}
+                    {{ form.Parameter(class="form-control form-control-lg is-invalid") }}
+                    <div class="invalid-feedback">
+                        {% for error in form.Parameter.errors %}
+                            <span>{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    {{ form.Parameter(class="form-control form-control-lg") }}
+                {% endif %}
+            </div>                      
+        </fieldset>
+        <div class="form-group">
+            {{ form.search(class="btn btn-outline-info") }}
+        </div>
+    </form>
+</div>
+    {% for post in posts %}
+        <article class="media content-section">
+        <div class="media-body">
+            <div class="article-metadata">
+            <a class="mr-2" href="#">{{ post.RestaurantName }}</a>
+            </div>
+            <h2><a class="article-title" href="{{ url_for('stored') }}">{{ post.RestaurantName }}</a></h2>
+            <p class="article-content">Top Cuisine:  {{ post.CuisineTopRest }}</p>
+            <p class="article-content">Restaurant Name: {{ post.RestaurantName }}</p>
+            <p class="article-content">Distance From Grainger: {{ post.Distance }}</p>
+            <p class="article-content">Master Rating: {{ post.Rating }}</p>
+        </div>
+        </article>            
+    {% endfor %}
+{% endblock content %}

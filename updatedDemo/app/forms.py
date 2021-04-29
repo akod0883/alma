@@ -76,3 +76,8 @@ class SearchForm(FlaskForm):
     restaurant_name = StringField('Restaurant Name', validators=[
         DataRequired(), Length(min=2, max=20)])
     search = SubmitField('Search')
+
+class StoredForm(FlaskForm):
+    CuisineName = StringField('Cuisine Name', validators=[DataRequired(), Length(min=2, max=20)])
+    Parameter = StringField('Distance, Rating, or Both', validators=[DataRequired(), Length(min=2, max=20)])
+    search = SubmitField('Search')

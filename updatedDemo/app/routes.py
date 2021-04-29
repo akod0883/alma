@@ -5,6 +5,7 @@ from app import database as db_helper
 from app import forms as forms
 
 
+
 @app.route("/delete/<int:task_id>", methods=['POST'])
 def delete(task_id):
     """ recieved post requests for entry delete """
@@ -253,6 +254,7 @@ def tier_list():
     posts = []
     conn = db.connect()
     results = conn.execute("SELECT DISTINCT RestaurantName, AVG(ConvenienceRating) as conv, AVG(MealCost), AVG(FoodRating) FROM NewReviewTop GROUP BY RestaurantName ORDER BY conv DESC LIMIT 10;").fetchall()
+    conn.close()
     counter = 1
     for result in results:
         item = {
@@ -265,3 +267,27 @@ def tier_list():
         counter = counter + 1
         posts.append(item)
     return render_template('tier_list.html', posts=posts)
+
+
+@app.route("/stored", methods=['GET', 'POST'])
+def stored():
+    posts = []
+    form = forms.StoredForm()
+    if form.validate_on_submit():
+        conn = db.raw_connection()
+        curr = conn.cursor()
+        curr.callproc('InsertIntoTopRest', [form.CuisineName.data, form.Parameter.data])
+        results = list(curr.fetchall())
+        curr.close()
+        if len(results) == 0:
+            flash("No entries match your parameters. Please try again with another restaurant", 'danger')
+            return redirect(url_for('stored'))
+        for result in results:
+            item = {
+                "RestaurantName": result[0], 
+                "CuisineTopRest": result[1],
+                "Rating": result[2],
+                "Distance": result[3]
+            }
+            posts.append(item)
+    return render_template('stored.html', posts=posts, legend="Search Cuisines", form=form)
