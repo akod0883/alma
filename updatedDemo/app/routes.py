@@ -246,3 +246,22 @@ def search_review():
             }
             posts.append(item)
     return render_template('search.html', posts=posts, form=form)
+
+
+@app.route("/tier_list", methods=['GET', 'POST'])
+def tier_list():
+    posts = []
+    conn = db.connect()
+    results = conn.execute("SELECT DISTINCT RestaurantName, AVG(ConvenienceRating) as conv, AVG(MealCost), AVG(FoodRating) FROM NewReviewTop GROUP BY RestaurantName ORDER BY conv DESC LIMIT 10;").fetchall()
+    counter = 1
+    for result in results:
+        item = {
+            "RestaurantName": result[0],
+            "MealCost": result[1],
+            "ConvenienceRating": result[2],
+            "FoodRating": result[3],
+            "Counter": counter
+        }
+        counter = counter + 1
+        posts.append(item)
+    return render_template('tier_list.html', posts=posts)
