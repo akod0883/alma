@@ -108,4 +108,5 @@ gcloud app deploy
 
 ## Authors
 **Akhil Kodumuri** - [akod0883](https://github.com/akod0883) 
+**Lukas Adomaviciute** - [lukasa3](https://github.com/lukas-adoma) 
 
