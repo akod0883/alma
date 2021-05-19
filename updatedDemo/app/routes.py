@@ -259,8 +259,8 @@ def tier_list():
     for result in results:
         item = {
             "RestaurantName": result[0],
-            "MealCost": result[1],
-            "ConvenienceRating": result[2],
+            "MealCost": result[2],
+            "ConvenienceRating": result[1],
             "FoodRating": result[3],
             "Counter": counter
         }
