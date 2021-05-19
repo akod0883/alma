@@ -23,6 +23,8 @@
 ## Setup, Install, Run
 
 ### Setup
+
+First you must clone a copy of this repository in order to deploy our website
 ```bash
 git clone https://github.com/akod0883/alma.git
 cd alma/updatedDemo
