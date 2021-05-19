@@ -47,7 +47,7 @@ If this process is done correctly, there should be a (name_of_virtual_environmen
 
 
 ### Setting Up GCP
-It should be noted that the database should be running on a mySQL server to observe and use all the features created in this repo. For the purposes of CS411 we used a mySQL server hosted on Google Cloud Platform (GCP). If this is something that you are interested in viewing, please contact any of the contributers to this repo, we would be eager to spin up the server!
+It should be noted that the database should be running on a mySQL server to observe and use all the features created in this repo. For the purposes of CS411 we used a mySQL server hosted on Google Cloud Platform (GCP). If this is something that you are interested in viewing, please contact any of the contributers to this repo, we would be delighted to spin up the server!
 
 Create a `app.yaml` file in the **updatedDemo** with the following content:
 ```bash
